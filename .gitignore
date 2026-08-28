@@ -1,0 +1,21 @@
+/.vscode
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# osmnx query cache (regenerable, not part of the dataset)
+notebooks/cache/
+
+# OS junk
+.DS_Store
+Thumbs.db

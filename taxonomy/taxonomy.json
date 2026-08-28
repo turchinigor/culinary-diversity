@@ -1,0 +1,618 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "taxonomy_name": "culinary_capital_restaurant_taxonomy",
+  "version": "1.1.0",
+  "scope": "Food-serving establishments for cross-city culinary diversity analysis. OSM amenity is not decisive; bars, pubs, and cafes may be included when substantial food is served.",
+  "design_principles": [
+    "Classify food offer, not OSM amenity alone.",
+    "Keep cuisine geography separate from food specialty and establishment concept.",
+    "Allow multiple cuisines and multiple specialties.",
+    "Never infer country cuisine from a food item unless evidence supports it.",
+    "Preserve unknown instead of forcing a category.",
+    "Cafe, bar, and pub records may be included when they have a substantial food offer.",
+    "Use unmapped_findings when evidence reveals a meaningful cuisine or specialty absent from taxonomy."
+  ],
+  "inclusion": {
+    "include_if": [
+      "restaurant or fast_food venue with evidence of prepared savory food",
+      "pub, bar, or cafe with substantial savory food menu",
+      "venue marketed primarily as a food destination despite OSM amenity mismatch"
+    ],
+    "exclude_if": [
+      "drinks-only bar/pub",
+      "coffee-only or tea-only cafe",
+      "dessert-only, ice-cream-only, juice-only, or bakery-only venue when study unit is savory meal establishments",
+      "record has no evidence of prepared savory meals"
+    ],
+    "review_if": [
+      "cafe/bar/pub with unclear menu",
+      "venue serves only snacks",
+      "OSM tags conflict with website/menu evidence",
+      "venue status appears closed or uncertain"
+    ],
+    "food_service_scope_values": [
+      "full_meal",
+      "limited_meal",
+      "snacks_only",
+      "drinks_only",
+      "dessert_only",
+      "unknown"
+    ],
+    "include_recommended_values": [
+      "yes",
+      "no",
+      "review"
+    ]
+  },
+  "cuisine_regions": [
+    "Eastern Europe",
+    "Central Europe",
+    "Western Europe",
+    "Northern Europe",
+    "Southern Europe",
+    "Balkans",
+    "Caucasus",
+    "Anatolia",
+    "Middle East",
+    "Central Asia",
+    "South Asia",
+    "East Asia",
+    "Southeast Asia",
+    "North Africa",
+    "Sub-Saharan Africa",
+    "North America",
+    "Latin America",
+    "Caribbean",
+    "Pacific",
+    "Mediterranean",
+    "Pan-Asian",
+    "Pan-European",
+    "International",
+    "Other",
+    "Unknown"
+  ],
+  "cuisine_countries": {
+    "Moldovan": "Eastern Europe",
+    "Romanian": "Eastern Europe",
+    "Ukrainian": "Eastern Europe",
+    "Russian": "Eastern Europe",
+    "Polish": "Central Europe",
+    "Czech": "Central Europe",
+    "Slovak": "Central Europe",
+    "Hungarian": "Central Europe",
+    "German": "Central Europe",
+    "Austrian": "Central Europe",
+    "Bavarian": "Central Europe",
+    "French": "Western Europe",
+    "Belgian": "Western Europe",
+    "Dutch": "Western Europe",
+    "British": "Northern Europe",
+    "Irish": "Northern Europe",
+    "Danish": "Northern Europe",
+    "Swedish": "Northern Europe",
+    "Norwegian": "Northern Europe",
+    "Finnish": "Northern Europe",
+    "Italian": "Southern Europe",
+    "Greek": "Southern Europe",
+    "Spanish": "Southern Europe",
+    "Portuguese": "Southern Europe",
+    "Serbian": "Balkans",
+    "Bulgarian": "Balkans",
+    "Croatian": "Balkans",
+    "Bosnian": "Balkans",
+    "Albanian": "Balkans",
+    "Macedonian": "Balkans",
+    "Slovenian": "Balkans",
+    "Georgian": "Caucasus",
+    "Armenian": "Caucasus",
+    "Azerbaijani": "Caucasus",
+    "Turkish": "Anatolia",
+    "Gagauz": "Eastern Europe",
+    "Lebanese": "Middle East",
+    "Syrian": "Middle East",
+    "Israeli": "Middle East",
+    "Palestinian": "Middle East",
+    "Persian": "Middle East",
+    "Iraqi": "Middle East",
+    "Jordanian": "Middle East",
+    "Uzbek": "Central Asia",
+    "Kazakh": "Central Asia",
+    "Kyrgyz": "Central Asia",
+    "Tajik": "Central Asia",
+    "Afghan": "Central Asia",
+    "Indian": "South Asia",
+    "Pakistani": "South Asia",
+    "Nepalese": "South Asia",
+    "Bangladeshi": "South Asia",
+    "Sri Lankan": "South Asia",
+    "Chinese": "East Asia",
+    "Japanese": "East Asia",
+    "Korean": "East Asia",
+    "Taiwanese": "East Asia",
+    "Vietnamese": "Southeast Asia",
+    "Thai": "Southeast Asia",
+    "Indonesian": "Southeast Asia",
+    "Malaysian": "Southeast Asia",
+    "Filipino": "Southeast Asia",
+    "Singaporean": "Southeast Asia",
+    "Moroccan": "North Africa",
+    "Tunisian": "North Africa",
+    "Algerian": "North Africa",
+    "Egyptian": "North Africa",
+    "Ethiopian": "Sub-Saharan Africa",
+    "Eritrean": "Sub-Saharan Africa",
+    "Nigerian": "Sub-Saharan Africa",
+    "South African": "Sub-Saharan Africa",
+    "American": "North America",
+    "Canadian": "North America",
+    "Mexican": "Latin America",
+    "Brazilian": "Latin America",
+    "Argentinian": "Latin America",
+    "Peruvian": "Latin America",
+    "Colombian": "Latin America",
+    "Venezuelan": "Latin America",
+    "Chilean": "Latin America",
+    "Cuban": "Caribbean",
+    "Jamaican": "Caribbean",
+    "Hawaiian": "Pacific",
+    "Jewish": "Middle East"
+  },
+  "establishment_concepts": [
+    "restaurant",
+    "fast_food",
+    "grill_house",
+    "steakhouse",
+    "seafood_restaurant",
+    "sushi_restaurant",
+    "pizzeria",
+    "kebab_shop",
+    "burger_shop",
+    "ramen_shop",
+    "diner",
+    "canteen",
+    "fine_dining",
+    "pub_with_food",
+    "bar_with_food",
+    "cafe_with_food",
+    "coffee_shop",
+    "bakery_patisserie",
+    "dessert_shop",
+    "wine_tavern",
+    "snack_bar",
+    "food_court_stall",
+    "other",
+    "unknown"
+  ],
+  "food_specialties": [
+    "barbecue",
+    "bagel",
+    "beef_bowl",
+    "breakfast",
+    "brunch",
+    "burger",
+    "cake",
+    "chicken",
+    "crepe",
+    "dessert",
+    "donut",
+    "fish",
+    "fish_and_chips",
+    "fried_food",
+    "fries",
+    "grill",
+    "hot_dog",
+    "ice_cream",
+    "kebab",
+    "noodles",
+    "pancake",
+    "pasta",
+    "pizza",
+    "ramen",
+    "salad",
+    "sandwich",
+    "savory_pancakes",
+    "seafood",
+    "soup",
+    "steak",
+    "sushi",
+    "wings",
+    "dumplings",
+    "shawarma",
+    "falafel",
+    "tacos",
+    "burrito",
+    "curry",
+    "rice_dishes",
+    "pastry",
+    "other"
+  ],
+  "beverage_tags": [
+    "coffee",
+    "tea",
+    "bubble_tea",
+    "juice",
+    "wine",
+    "beer",
+    "cocktails",
+    "prosecco"
+  ],
+  "source_priority": [
+    "official_menu",
+    "official_website",
+    "official_social",
+    "delivery_platform",
+    "osm",
+    "reputable_listing",
+    "other"
+  ],
+  "confidence_rules": {
+    "high": "Explicit cuisine/menu evidence from official menu, official website, or multiple agreeing strong sources.",
+    "medium": "Good indirect evidence or one credible third-party source, but not fully explicit.",
+    "low": "Weak, ambiguous, stale, conflicting, or inferred evidence. Prefer review."
+  },
+  "guardrails": [
+    "pizza does not automatically imply Italian",
+    "sushi does not automatically imply Japanese",
+    "ramen does not automatically imply Japanese unless evidence supports Japanese cuisine",
+    "burger does not automatically imply American",
+    "kebab or shawarma does not automatically imply Turkish",
+    "regional or local does not automatically imply Moldovan or Romanian",
+    "venue name alone is weak evidence unless extremely explicit and corroborated",
+    "do not treat beverage style as cuisine",
+    "do not force one cuisine when menu clearly represents several cuisines"
+  ],
+  "osm_token_map": {
+    "american": {
+      "kind": "cuisine_country",
+      "value": "American",
+      "region": "North America"
+    },
+    "bavarian": {
+      "kind": "cuisine_country",
+      "value": "Bavarian",
+      "region": "Central Europe"
+    },
+    "chinese": {
+      "kind": "cuisine_country",
+      "value": "Chinese",
+      "region": "East Asia"
+    },
+    "czech": {
+      "kind": "cuisine_country",
+      "value": "Czech",
+      "region": "Central Europe"
+    },
+    "french": {
+      "kind": "cuisine_country",
+      "value": "French",
+      "region": "Western Europe"
+    },
+    "gagauz": {
+      "kind": "cuisine_country",
+      "value": "Gagauz",
+      "region": "Eastern Europe"
+    },
+    "georgian": {
+      "kind": "cuisine_country",
+      "value": "Georgian",
+      "region": "Caucasus"
+    },
+    "german": {
+      "kind": "cuisine_country",
+      "value": "German",
+      "region": "Central Europe"
+    },
+    "greek": {
+      "kind": "cuisine_country",
+      "value": "Greek",
+      "region": "Southern Europe"
+    },
+    "hawaiian": {
+      "kind": "cuisine_country",
+      "value": "Hawaiian",
+      "region": "Pacific"
+    },
+    "indian": {
+      "kind": "cuisine_country",
+      "value": "Indian",
+      "region": "South Asia"
+    },
+    "irish": {
+      "kind": "cuisine_country",
+      "value": "Irish",
+      "region": "Northern Europe"
+    },
+    "italian": {
+      "kind": "cuisine_country",
+      "value": "Italian",
+      "region": "Southern Europe"
+    },
+    "japanese": {
+      "kind": "cuisine_country",
+      "value": "Japanese",
+      "region": "East Asia"
+    },
+    "jewish": {
+      "kind": "cuisine_country",
+      "value": "Jewish",
+      "region": "Middle East"
+    },
+    "mexican": {
+      "kind": "cuisine_country",
+      "value": "Mexican",
+      "region": "Latin America"
+    },
+    "moldovan": {
+      "kind": "cuisine_country",
+      "value": "Moldovan",
+      "region": "Eastern Europe"
+    },
+    "romanian": {
+      "kind": "cuisine_country",
+      "value": "Romanian",
+      "region": "Eastern Europe"
+    },
+    "russian": {
+      "kind": "cuisine_country",
+      "value": "Russian",
+      "region": "Eastern Europe"
+    },
+    "spanish": {
+      "kind": "cuisine_country",
+      "value": "Spanish",
+      "region": "Southern Europe"
+    },
+    "turkish": {
+      "kind": "cuisine_country",
+      "value": "Turkish",
+      "region": "Anatolia"
+    },
+    "ukrainian": {
+      "kind": "cuisine_country",
+      "value": "Ukrainian",
+      "region": "Eastern Europe"
+    },
+    "uzbek": {
+      "kind": "cuisine_country",
+      "value": "Uzbek",
+      "region": "Central Asia"
+    },
+    "usbek": {
+      "kind": "cuisine_country",
+      "value": "Uzbek",
+      "region": "Central Asia",
+      "canonical": "uzbek"
+    },
+    "armenian": {
+      "kind": "cuisine_country",
+      "value": "Armenian",
+      "region": "Caucasus"
+    },
+    "caucasian": {
+      "kind": "cuisine_region",
+      "value": "Caucasus"
+    },
+    "asian": {
+      "kind": "cuisine_region",
+      "value": "Pan-Asian"
+    },
+    "asi": {
+      "kind": "cuisine_region",
+      "value": "Pan-Asian",
+      "canonical": "asian"
+    },
+    "european": {
+      "kind": "cuisine_region",
+      "value": "Pan-European"
+    },
+    "balkan": {
+      "kind": "cuisine_region",
+      "value": "Balkans"
+    },
+    "mediterranean": {
+      "kind": "cuisine_region",
+      "value": "Mediterranean"
+    },
+    "international": {
+      "kind": "cuisine_region",
+      "value": "International"
+    },
+    "oriental": {
+      "kind": "cuisine_region",
+      "value": "Other"
+    },
+    "regional": {
+      "kind": "ambiguous_geography",
+      "value": "Unknown"
+    },
+    "local": {
+      "kind": "ambiguous_geography",
+      "value": "Unknown"
+    },
+    "barbecue": {
+      "kind": "food_specialty",
+      "specialty": "barbecue"
+    },
+    "bagel": {
+      "kind": "food_specialty",
+      "specialty": "bagel"
+    },
+    "beef_bowl": {
+      "kind": "food_specialty",
+      "specialty": "beef_bowl"
+    },
+    "burger": {
+      "kind": "food_specialty",
+      "specialty": "burger"
+    },
+    "cake": {
+      "kind": "food_specialty",
+      "specialty": "cake"
+    },
+    "chicken": {
+      "kind": "food_specialty",
+      "specialty": "chicken"
+    },
+    "crepe": {
+      "kind": "food_specialty",
+      "specialty": "crepe"
+    },
+    "dessert": {
+      "kind": "food_specialty",
+      "specialty": "dessert"
+    },
+    "donut": {
+      "kind": "food_specialty",
+      "specialty": "donut"
+    },
+    "fish": {
+      "kind": "food_specialty",
+      "specialty": "fish"
+    },
+    "fish_and_chips": {
+      "kind": "food_specialty",
+      "specialty": "fish_and_chips"
+    },
+    "friture": {
+      "kind": "food_specialty",
+      "specialty": "fried_food"
+    },
+    "fries": {
+      "kind": "food_specialty",
+      "specialty": "fries"
+    },
+    "grill": {
+      "kind": "food_specialty",
+      "specialty": "grill"
+    },
+    "hot_dog": {
+      "kind": "food_specialty",
+      "specialty": "hot_dog"
+    },
+    "hotdog": {
+      "kind": "food_specialty",
+      "specialty": "hot_dog",
+      "canonical": "hot_dog"
+    },
+    "ice_cream": {
+      "kind": "food_specialty",
+      "specialty": "ice_cream"
+    },
+    "kebab": {
+      "kind": "food_specialty",
+      "specialty": "kebab"
+    },
+    "noodles": {
+      "kind": "food_specialty",
+      "specialty": "noodles"
+    },
+    "pancake": {
+      "kind": "food_specialty",
+      "specialty": "pancake"
+    },
+    "pasta": {
+      "kind": "food_specialty",
+      "specialty": "pasta"
+    },
+    "pizza": {
+      "kind": "food_specialty",
+      "specialty": "pizza"
+    },
+    "ramen": {
+      "kind": "food_specialty",
+      "specialty": "ramen"
+    },
+    "salad": {
+      "kind": "food_specialty",
+      "specialty": "salad"
+    },
+    "sandwich": {
+      "kind": "food_specialty",
+      "specialty": "sandwich"
+    },
+    "savory_pancakes": {
+      "kind": "food_specialty",
+      "specialty": "savory_pancakes"
+    },
+    "seafood": {
+      "kind": "food_specialty",
+      "specialty": "seafood"
+    },
+    "soup": {
+      "kind": "food_specialty",
+      "specialty": "soup"
+    },
+    "steak": {
+      "kind": "food_specialty",
+      "specialty": "steak"
+    },
+    "steak_house": {
+      "kind": "establishment_concept",
+      "value": "steakhouse"
+    },
+    "sushi": {
+      "kind": "food_specialty",
+      "specialty": "sushi"
+    },
+    "wings": {
+      "kind": "food_specialty",
+      "specialty": "wings"
+    },
+    "coffee_shop": {
+      "kind": "establishment_concept",
+      "value": "coffee_shop"
+    },
+    "coffee": {
+      "kind": "beverage",
+      "value": "coffee"
+    },
+    "tea": {
+      "kind": "beverage",
+      "value": "tea"
+    },
+    "bubble_tea": {
+      "kind": "beverage",
+      "value": "bubble_tea"
+    },
+    "juice": {
+      "kind": "beverage",
+      "value": "juice"
+    },
+    "wine": {
+      "kind": "beverage",
+      "value": "wine"
+    },
+    "prosecco": {
+      "kind": "beverage",
+      "value": "prosecco"
+    },
+    "breakfast": {
+      "kind": "meal_period",
+      "value": "breakfast"
+    },
+    "brunch": {
+      "kind": "meal_period",
+      "value": "brunch"
+    },
+    "lunch": {
+      "kind": "meal_period",
+      "value": "lunch"
+    },
+    "dinner": {
+      "kind": "meal_period",
+      "value": "dinner"
+    },
+    "snackbar": {
+      "kind": "establishment_concept",
+      "value": "snack_bar"
+    },
+    "patisserie": {
+      "kind": "establishment_concept",
+      "value": "bakery_patisserie"
+    },
+    "buschenschank": {
+      "kind": "establishment_concept",
+      "value": "wine_tavern"
+    }
+  }
+}

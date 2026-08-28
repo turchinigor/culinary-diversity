@@ -1,0 +1,47 @@
+{
+  "project": "least_culinary_experimental_capital",
+  "city": "Chisinau",
+  "country": "Moldova",
+  "input": {
+    "preferred_fields": [
+      "id",
+      "name",
+      "amenity",
+      "cuisine",
+      "latitude",
+      "longitude",
+      "website",
+      "phone"
+    ]
+  },
+  "search": {
+    "enabled": true,
+    "query_templates": [
+      "{name} Chisinau menu",
+      "{name} Chisinau restaurant",
+      "{name} Chisinau food"
+    ],
+    "max_search_results": 5,
+    "prioritize_official_sources": true
+  },
+  "classification": {
+    "taxonomy_file": "taxonomy/taxonomy.json",
+    "schema_file": "taxonomy/classification_schema.json",
+    "prompt_file": "prompts/agent_prompt.txt",
+    "output_format": "jsonl",
+    "output_file": "data/preprocessed/classifications.jsonl",
+    "review_file": "data/review/review_needed.jsonl"
+  },
+  "llm": {
+    "backend": "hf_inference_api",
+    "model": "Qwen/Qwen3-4B-Instruct-2507",
+    "provider": "auto",
+    "max_new_tokens": 800,
+    "temperature": 0.1,
+    "note": "Requires a free HF_TOKEN env var from https://huggingface.co/settings/tokens. Runs on Hugging Face's servers, not locally."
+  },
+  "thresholds": {
+    "send_low_confidence_to_review": true,
+    "send_include_review_to_review": true
+  }
+}

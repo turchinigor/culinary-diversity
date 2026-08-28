@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/classification_schema.json",
+  "title": "Culinary Venue Classification",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "source_id",
+    "name",
+    "include_recommended",
+    "food_service_scope",
+    "establishment_concept",
+    "cuisine_region",
+    "cuisine_country",
+    "food_specialty",
+    "classification_confidence",
+    "classification_sources",
+    "evidence",
+    "unmapped_findings"
+  ],
+  "properties": {
+    "source_id": {
+      "type": [
+        "string",
+        "integer"
+      ]
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "include_recommended": {
+      "type": "string",
+      "enum": [
+        "yes",
+        "no",
+        "review"
+      ]
+    },
+    "food_service_scope": {
+      "type": "string",
+      "enum": [
+        "full_meal",
+        "limited_meal",
+        "snacks_only",
+        "drinks_only",
+        "dessert_only",
+        "unknown"
+      ]
+    },
+    "establishment_concept": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "cuisine_region": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "cuisine_country": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "food_specialty": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "classification_confidence": {
+      "type": "string",
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ]
+    },
+    "classification_sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source_type",
+          "url"
+        ],
+        "properties": {
+          "source_type": {
+            "type": "string",
+            "enum": [
+              "osm",
+              "official_website",
+              "official_menu",
+              "official_social",
+              "delivery_platform",
+              "reputable_listing",
+              "other"
+            ]
+          },
+          "url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "note": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    },
+    "evidence": {
+      "type": "string",
+      "description": "Short factual summary supporting classification. No marketing fluff."
+    },
+    "unmapped_findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "type",
+          "value"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "cuisine_country",
+              "cuisine_region",
+              "food_specialty",
+              "establishment_concept"
+            ]
+          },
+          "value": {
+            "type": "string"
+          },
+          "note": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

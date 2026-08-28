@@ -1,0 +1,26 @@
+{
+  "source_id": "osm_123456",
+  "name": "Draft Arena",
+  "include_recommended": "yes",
+  "food_service_scope": "full_meal",
+  "establishment_concept": [
+    "pub_with_food",
+    "grill_house"
+  ],
+  "cuisine_region": [],
+  "cuisine_country": [],
+  "food_specialty": [
+    "grill",
+    "burger"
+  ],
+  "classification_confidence": "high",
+  "classification_sources": [
+    {
+      "source_type": "official_menu",
+      "url": "https://example.com/menu",
+      "note": "Substantial savory menu with grilled dishes and burgers."
+    }
+  ],
+  "evidence": "Venue operates as a pub but serves a substantial savory menu centered on grilled dishes and burgers.",
+  "unmapped_findings": []
+}
