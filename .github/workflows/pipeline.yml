@@ -3,7 +3,12 @@ name: Culinary Diversity Pipeline
 on:
   schedule:
     - cron: '0 */3 * * *'  # every 3 hours
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: 'Max venues to process per step (leave empty for no limit)'
+        required: false
+        default: ''
 
 permissions:
   contents: write
@@ -29,12 +34,24 @@ jobs:
       - name: Classify newly-missing venues
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: python -m src.pipeline
+          LIMIT: ${{ github.event.inputs.limit }}
+        run: |
+          if [ -n "$LIMIT" ]; then
+            python -m src.pipeline --limit "$LIMIT"
+          else
+            python -m src.pipeline
+          fi
 
       - name: Enrich missing food_specialty
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: python -m src.enrich
+          LIMIT: ${{ github.event.inputs.limit }}
+        run: |
+          if [ -n "$LIMIT" ]; then
+            python -m src.enrich --limit "$LIMIT"
+          else
+            python -m src.enrich
+          fi
 
       - name: Regenerate spreadsheets
         run: |
