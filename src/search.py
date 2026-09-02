@@ -11,6 +11,8 @@ def search_place(name: str, city: str = "Chisinau", max_results: int = 5) -> lis
         f'"{name}" {city} menu',
         f'"{name}" {city} restaurant',
         f'"{name}" {city} food',
+        f'{name} {city}',
+        f'"{name}" {city} instagram',
     ]
 
     seen = set()
