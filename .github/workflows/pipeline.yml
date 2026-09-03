@@ -54,11 +54,13 @@ jobs:
           fi
 
       - name: Regenerate spreadsheets
+        if: always()
         run: |
           python -m src.export --which classifications
           python -m src.export --which review
 
       - name: Commit results
+        if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
