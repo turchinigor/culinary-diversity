@@ -56,6 +56,21 @@ SHEETS = {
     "review": (storage.REVIEW_FILE, REVIEW_COLUMNS),
 }
 
+SPECIALTY_COLUMNS = [
+    "source_id",
+    "name",
+    "origin",
+    "food_specialty",
+    "cuisine_country",
+    "cuisine_region",
+    "establishment_concept",
+    "food_service_scope",
+    "include_recommended",
+    "classification_confidence",
+    "latitude",
+    "longitude",
+]
+
 
 def _join(value: Any) -> str:
     if isinstance(value, list):
@@ -106,6 +121,17 @@ def build_sheet(records: list[dict[str, Any]], columns: list[str]) -> pd.DataFra
 
 
 def export(which: str, output: Path | None = None) -> Path:
+    if which == "specialty":
+        classifications = [{**r, "origin": "classifications"} for r in storage.load_jsonl(storage.OUTPUT_FILE)]
+        reviews = [{**r, "origin": "review"} for r in storage.load_jsonl(storage.REVIEW_FILE)]
+        with_specialty = [r for r in classifications + reviews if r.get("food_specialty")]
+        df = build_sheet(with_specialty, SPECIALTY_COLUMNS)
+        output = output or storage.OUTPUT_FILE.parent / "venues_with_specialty.xlsx"
+        df.to_excel(output, index=False)
+        print(f"Wrote {len(df)} rows to {output}")
+        print(df["origin"].value_counts())
+        return output
+
     source_file, columns = SHEETS[which]
     df = build_sheet(storage.load_jsonl(source_file), columns)
     output = output or source_file.with_suffix(".xlsx")
@@ -116,8 +142,8 @@ def export(which: str, output: Path | None = None) -> Path:
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Export classifications.jsonl or review_needed.jsonl to a spreadsheet.")
-    parser.add_argument("--which", choices=SHEETS.keys(), required=True)
+    parser = argparse.ArgumentParser(description="Export classification data to a spreadsheet.")
+    parser.add_argument("--which", choices=[*SHEETS.keys(), "specialty"], required=True)
     parser.add_argument("--output", type=Path, default=None)
     args = parser.parse_args()
     export(args.which, args.output)
