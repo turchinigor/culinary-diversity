@@ -1,8 +1,8 @@
 name: Culinary Diversity Pipeline
 
 on:
-  schedule:
-    - cron: '0 */3 * * *'  # every 3 hours
+  # schedule trigger removed now that the initial Chisinau batch is fully
+  # processed - re-add a `schedule:` block here when starting the next city.
   workflow_dispatch:
     inputs:
       limit:
