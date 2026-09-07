@@ -120,13 +120,20 @@ def build_sheet(records: list[dict[str, Any]], columns: list[str]) -> pd.DataFra
     return df[columns]
 
 
+def _load_combined() -> list[dict[str, Any]]:
+    classifications = [{**r, "origin": "classifications"} for r in storage.load_jsonl(storage.OUTPUT_FILE)]
+    reviews = [{**r, "origin": "review"} for r in storage.load_jsonl(storage.REVIEW_FILE)]
+    return classifications + reviews
+
+
 def export(which: str, output: Path | None = None) -> Path:
-    if which == "specialty":
-        classifications = [{**r, "origin": "classifications"} for r in storage.load_jsonl(storage.OUTPUT_FILE)]
-        reviews = [{**r, "origin": "review"} for r in storage.load_jsonl(storage.REVIEW_FILE)]
-        with_specialty = [r for r in classifications + reviews if r.get("food_specialty")]
-        df = build_sheet(with_specialty, SPECIALTY_COLUMNS)
-        output = output or storage.OUTPUT_FILE.parent / "venues_with_specialty.xlsx"
+    if which in ("specialty", "no_specialty"):
+        combined = _load_combined()
+        filtered = [r for r in combined if r.get("food_specialty")] if which == "specialty" else \
+                   [r for r in combined if not r.get("food_specialty")]
+        df = build_sheet(filtered, SPECIALTY_COLUMNS)
+        default_name = "venues_with_specialty.xlsx" if which == "specialty" else "venues_without_specialty.xlsx"
+        output = output or storage.OUTPUT_FILE.parent / default_name
         df.to_excel(output, index=False)
         print(f"Wrote {len(df)} rows to {output}")
         print(df["origin"].value_counts())
@@ -143,7 +150,7 @@ def export(which: str, output: Path | None = None) -> Path:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Export classification data to a spreadsheet.")
-    parser.add_argument("--which", choices=[*SHEETS.keys(), "specialty"], required=True)
+    parser.add_argument("--which", choices=[*SHEETS.keys(), "specialty", "no_specialty"], required=True)
     parser.add_argument("--output", type=Path, default=None)
     args = parser.parse_args()
     export(args.which, args.output)
