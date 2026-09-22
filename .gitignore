@@ -16,6 +16,10 @@ venv/
 # osmnx query cache (regenerable, not part of the dataset)
 notebooks/cache/
 
+# Overture Maps raw download (regenerable via `overturemaps download`, not part of the dataset)
+data/raw/overture_*.geojson
+data/raw/overture_*.geojson.state
+
 # OS junk
 .DS_Store
 Thumbs.db
