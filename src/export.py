@@ -56,7 +56,7 @@ SHEETS = {
     "review": (storage.REVIEW_FILE, REVIEW_COLUMNS),
 }
 
-SPECIALTY_COLUMNS = [
+COMBINED_COLUMNS = [
     "source_id",
     "name",
     "origin",
@@ -70,6 +70,17 @@ SPECIALTY_COLUMNS = [
     "latitude",
     "longitude",
 ]
+
+# Concepts treated as fast food regardless of the original OSM amenity tag -
+# e.g. a burger_shop counts even if it was never tagged amenity=fast_food.
+FAST_FOOD_CONCEPTS = {"fast_food", "burger_shop", "kebab_shop", "snack_bar", "food_court_stall"}
+
+FILTERS = {
+    "specialty": (lambda r: bool(r.get("food_specialty")), "venues_with_specialty.xlsx"),
+    "no_specialty": (lambda r: not r.get("food_specialty"), "venues_without_specialty.xlsx"),
+    "fast_food": (lambda r: bool(set(r.get("establishment_concept") or []) & FAST_FOOD_CONCEPTS), "venues_fast_food.xlsx"),
+    "not_fast_food": (lambda r: not (set(r.get("establishment_concept") or []) & FAST_FOOD_CONCEPTS), "venues_not_fast_food.xlsx"),
+}
 
 
 def _join(value: Any) -> str:
@@ -127,12 +138,10 @@ def _load_combined() -> list[dict[str, Any]]:
 
 
 def export(which: str, output: Path | None = None) -> Path:
-    if which in ("specialty", "no_specialty"):
-        combined = _load_combined()
-        filtered = [r for r in combined if r.get("food_specialty")] if which == "specialty" else \
-                   [r for r in combined if not r.get("food_specialty")]
-        df = build_sheet(filtered, SPECIALTY_COLUMNS)
-        default_name = "venues_with_specialty.xlsx" if which == "specialty" else "venues_without_specialty.xlsx"
+    if which in FILTERS:
+        predicate, default_name = FILTERS[which]
+        filtered = [r for r in _load_combined() if predicate(r)]
+        df = build_sheet(filtered, COMBINED_COLUMNS)
         output = output or storage.OUTPUT_FILE.parent / default_name
         df.to_excel(output, index=False)
         print(f"Wrote {len(df)} rows to {output}")
@@ -150,7 +159,7 @@ def export(which: str, output: Path | None = None) -> Path:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Export classification data to a spreadsheet.")
-    parser.add_argument("--which", choices=[*SHEETS.keys(), "specialty", "no_specialty"], required=True)
+    parser.add_argument("--which", choices=[*SHEETS.keys(), *FILTERS.keys()], required=True)
     parser.add_argument("--output", type=Path, default=None)
     args = parser.parse_args()
     export(args.which, args.output)
