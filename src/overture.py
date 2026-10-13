@@ -3,8 +3,6 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from difflib import SequenceMatcher
-from math import atan2, cos, radians, sin, sqrt
 from pathlib import Path
 from typing import Any
 
@@ -12,8 +10,9 @@ if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
     sys.stdout.reconfigure(encoding="utf-8")
 
 try:
-    from . import storage
+    from . import matching, storage
 except ImportError:
+    import matching
     import storage
 
 OVERTURE_FILE = storage.RAW_DIR / "overture_chisinau_places.geojson"
@@ -81,33 +80,8 @@ def load_overture_places(path: Path = OVERTURE_FILE) -> list[dict[str, Any]]:
     return places
 
 
-def _haversine_meters(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
-    r = 6371000
-    phi1, phi2 = radians(lat1), radians(lat2)
-    dphi = radians(lat2 - lat1)
-    dlambda = radians(lon2 - lon1)
-    a = sin(dphi / 2) ** 2 + cos(phi1) * cos(phi2) * sin(dlambda / 2) ** 2
-    return 2 * r * atan2(sqrt(a), sqrt(1 - a))
-
-
-def _name_similarity(a: str, b: str) -> float:
-    return SequenceMatcher(None, a.lower().strip(), b.lower().strip()).ratio()
-
-
 def find_best_match(overture_place: dict[str, Any], existing_records: list[dict[str, Any]]) -> tuple[dict[str, Any] | None, float]:
-    best, best_score = None, 0.0
-    for record in existing_records:
-        lat, lon = record.get("latitude"), record.get("longitude")
-        if lat is None or lon is None or not record.get("name"):
-            continue
-        if _haversine_meters(overture_place["latitude"], overture_place["longitude"], lat, lon) > MATCH_RADIUS_METERS:
-            continue
-        score = _name_similarity(overture_place["name"], record["name"])
-        if score > best_score:
-            best, best_score = record, score
-    if best_score >= NAME_SIMILARITY_THRESHOLD:
-        return best, best_score
-    return None, best_score
+    return matching.find_best_match(overture_place, existing_records, MATCH_RADIUS_METERS, NAME_SIMILARITY_THRESHOLD)
 
 
 def apply_match_to_existing(record: dict[str, Any], overture_place: dict[str, Any], score: float) -> bool:

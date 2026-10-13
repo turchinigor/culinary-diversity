@@ -8,3 +8,4 @@ huggingface_hub>=0.24
 python-dotenv>=1.0
 geopandas>=1.0
 shapely>=2.0
+duckdb>=1.1

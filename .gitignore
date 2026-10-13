@@ -20,6 +20,9 @@ notebooks/cache/
 data/raw/overture_*.geojson
 data/raw/overture_*.geojson.state
 
+# Foursquare Open Source Places raw pull (regenerable via src/foursquare.py's DuckDB query)
+data/foursquare/moldova_places.parquet
+
 # OS junk
 .DS_Store
 Thumbs.db
